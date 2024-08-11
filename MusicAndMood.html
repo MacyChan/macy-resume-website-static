@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Macy's Project - Music And Mood</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/flexslider.css">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/kc.fab.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/MusicAndMoodStyle.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,700">
+    <style>
+        .pickListButtons {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .pickListButtons button {
+            margin-bottom: 5px;
+        }
+
+        .pickListSelect {
+            height: 150px !important;
+        }
+    </style>
+</head>
+
+<body data-spy="scroll" data-target="#pb-navbar" data-offset="200">
+
+    <nav class="navbar navbar-expand-lg site-navbar navbar-light bg-light" id="pb-navbar">
+
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-musicAndMood"
+                aria-controls="navbar-musicAndMood" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <div class="collapse navbar-collapse justify-content-md-center" id="navbar-musicAndMood">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="#section-top">Top</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#section-introduction">Introduction</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#section-game">Let's Play</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#section-ideaBehide">Idea Behide</a></li>
+                    <button class="btn btn-sm btn-outline-success my-2 my-sm-0" style="position: relative;"
+                        onclick="window.location.href='https://www.spotify.com/logout/'" type="submit">Logout
+                        Sportify</button>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+    <section class="site-hero" style="background-image: url(images/banner.jpg);" id="section-top"
+        data-stellar-background-ratio="0.5">
+        <div class="container">
+            <div class="row intro-text align-items-center justify-content-center">
+                <div class="col-md-10 text-center pt-5">
+                    <h1 class="site-heading site-animate"><strong class="d-block">Music And Mood</strong></h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- section -->
+
+    <section class="site-section" id="section-introduction">
+        <div class="container">
+            <div class="row intro-text align-items-center justify-content-center">
+                <div class="col-md-10 text-center pt-5">
+                    <h5 class="site-heading site-animate">
+                        <br>This application is designed to generate a custom playlist according to your local weather
+                        using spotify API.
+                        <br>[1] Login your spotify account
+                        <br>[2] Select a playlist and click generate
+                        <br>[3] Enjoy the music we picked for you
+                        <br>[4] Tell me which tracks match your mood the most
+                        <br>[Tools: Springboot security, Oauth2.0, Rest API, Machine learning algorithm]
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- section -->
+
+    <section class="site-section" id="section-game">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-5 mb-md-0">
+                    <form id="selectedPlaylistForm" action="" class="site-form">
+                        <h3 class="mb-5">Pick your mood of today</h3>
+                        <div id="fmUserDetails">
+                            <div class="form-group">
+                                <p>Welcome! <span id="txnName" style="font-weight:bold"></span></p>
+                            </div>
+                            <div class="form-group">
+                                <h6 class="mb-1">Your Location</h6>
+                                <p id="txnLocation"></p>
+                            </div>
+                            <div class="form-group">
+                                <h6 class="mb-1">Weather In Your Location</h6>
+                                <p id="txnWeather"></p>
+                                <h6>Tempeture:</h6>
+                                <p id="txnTemp">
+                            </div>
+                            <div class="form-group">
+                                <h6 class="mb-1">Your Mood Level:
+                                    <span class="icon-question" data-toggle="tooltip" data-placement="right"
+                                        title="Calculated base on your local weather"></span>
+                                </h6>
+                                <div class="progress">
+                                    <div id="pbMoodLevel"
+                                        class="progress-bar progress-bar-striped progress-bar-animated active"
+                                        role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"
+                                        style="width: 0% "></div>
+                                </div>
+                            </div>
+                            <form>
+                                <div class="form-group">
+                                    <h6><label for="dlPlaylist">What are you feeling to enjoy</label></h6>
+                                    <select class="form-control" id="dlPlaylist" name="dlPlaylist">
+                                        <option class="dropdown-item">select a playlist type</option>
+                                        <option class="dropdown-item">Disney</option>
+                                        <option class="dropdown-item">Today's Top Hits</option>
+                                        <option class="dropdown-item">Macy's Choice</option>
+                                    </select>
+                                </div>
+                            </form>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-primary px-4 py-3" value="Create Playlist">
+                            </div>
+                        </div>
+                        <div id="btnLoginSpotify">
+                            <div class="d-flex justify-content-center">
+                                <!--<button class="btn btn-sm btn-outline-success my-2 my-sm-0"
+                                    onclick="loginMusicAndMood()" type="submit">Click To Login Spotify</button>-->
+                                <div class="panel-heading">
+                                    <h6 class="panel-title"> APPLICATION IS CURRENTLY UNAVAIABLE DUE TO BUDGET REASON. As an alternitive, please check the demo video in below.</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="spFmUserDetailsLoading">
+                            <div class="d-flex justify-content-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only"></span>
+                                    <br>
+                                </div>
+                            </div>
+                            <br>
+                            <p style="text-align: center;">Retrieving your inforamtion...
+                            </p>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-4 pl-md-5">
+                    <h3 class="mb-5">Your Customized Playlist</h3>
+                    <iframe id="ifCustomPlaylist" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M"
+                        width="300" height="380" frameborder="0" allowtransparency="true"
+                        allow="encrypted-media"></iframe>
+                    <p>If you have a Music and Mood Playlist or a new Playlist cannot be displayed, click refresh.</p>
+                    <!--<button id="btnRefreshMMPlaylist" class="btn btn-outline-success my-2 my-sm-0" type="submit">Refresh
+                        Playlist</button>-->
+                </div>
+                <div class="col-md-4 pl-md-5">
+                    <h3 class="mb-5">Your opinion matters!</h3>
+                    <div class="container">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h6 class="panel-title"> Which songs suit your mood the best? Help our AI to learn by
+                                    creating a playlist and giving your thoughts</h6>
+                            </div>
+                            <div class="panel-body">
+                                <div id="pickList"></div>
+                                <button class="btnPickList btn btn-primary" id="btnGetSelected">Submit your
+                                    opinion</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- .section -->
+
+    <section class="site-section" id="section-ideaBehide">
+        <div class="container">
+            <div class="row">
+                <div class="section-heading text-center col-md-12">
+                    <h2>The <strong>Idea Behide</strong></h2>
+                </div>
+            </div>
+            <div class="top-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col col-md-10 offset-md-1 col-lg-8 offset-lg-2">
+                            <div id="carousel-example" class="carousel slide">
+                                <div>
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
+                                        <li data-target="#carousel-example" data-slide-to="1"></li>
+                                        <!--<li data-target="#carousel-example" data-slide-to="2"></li>-->
+                                    </ol>
+                                </div>
+                                <div class="carousel-inner">
+                                    <div class="carousel-item active">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <iframe class="embed-responsive-item" src="/images/MusicandMoodIntro.m4v"
+                                                allowfullscreen></iframe>
+                                        </div>
+                                        <div>
+                                            <h3 class="h3-responsive">Brief Explaination</h3>
+                                            <p>A short clip to tech you how to use our engine</p>
+                                        </div>
+                                    </div>
+                                    <div class="carousel-item">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <img class="embed-responsive-item" src="/images/DataCollection.jpeg"
+                                                alt="DataCollection descr" allowfullscreen></img>
+                                        </div>
+                                        <div>
+                                            <h3 class="h3-responsive">Data Used by our Learning Machine</h3>
+                                            <p>We take historial data from various sources to make better a prediction
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <!--
+                                    <div class="carousel-item">
+                                        <div class="embed-responsive embed-responsive-16by9">
+                                            <img class="embed-responsive-item" src="/images/Scoring.jpeg"
+                                                alt="Scoring descr" allowfullscreen></img>
+                                        </div>
+                                        <div>
+                                            <h3 class="h3-responsive">The scoring</h3>
+                                            <p>How we calculate the score?</p>
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <a class="carousel-control-prev" href="#carousel-example" role="button"
+                                    data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carousel-example" role="button"
+                                    data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- .section -->
+
+    <div class="kc_fab_wrapper"></div>
+
+    <footer class="site-footer">
+        <div class="container">
+
+            <div class="row mb-5">
+                <p class="col-12 text-center">
+                    Copyright &copy;
+                    <script>
+                        document.write(new Date().getFullYear());
+                    </script> All rights reserved | Modified template from <a href="https://colorlib.com"
+                        target="_blank" class="text-primary">Colorlib</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!--Custom Script-->
+    <script src="js/vendor/jquery.min.js"></script>
+    <script src="js/vendor/jquery-migrate-3.0.1.min.js"></script>
+    <script src="js/vendor/popper.min.js"></script>
+    <script src="js/vendor/bootstrap.min.js"></script>
+    <script src="js/vendor/jquery.easing.1.3.js"></script>
+    <script src="js/vendor/jquery.stellar.min.js"></script>
+    <script src="js/vendor/jquery.waypoints.min.js"></script>
+
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+    <script src="js/kc.fab.js"></script>
+    <script src="js/custom.js"></script>
+
+    <!--picklist-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
+    <script src="js/pickList.js"></script>
+    <script src="js/customCtrl/MusicAndMoodCtrl.js"></script>
+    <script>
+
+        runMusicAndMoodProgram();
+
+        function runMusicAndMoodProgram() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const varCode = urlParams.get('code');
+            var varAccessToken = "";
+
+            if (varCode !== null) {
+                $.ajax({
+                    type: 'GET',
+                    url: '/getAccessToken',
+                    data: {
+                        code: varCode
+                    },
+                    success: function (resp) {
+                        varAccessToken = resp;
+                        console.log("Return success getAccessToken");
+                        $('#btnLoginSpotify').hide();
+                        $('#spFmUserDetailsLoading').show();
+                        getClientIp(varCode);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Return error");
+                        console.log(JSON.parse(xhr.responseText).message);
+                        var errorMessage = JSON.parse(xhr.responseText).message;
+                        if (errorMessage.search('Authorization code expired') || errorMessage.search('Invalid authorization code') >= 0) {
+
+                            //window.location.replace("SpotifyAuthExpired.html");
+                        }
+                        //console.log(xhr);
+                    }
+                });
+                //}
+            }
+        };
+
+
+        function getClientIp(varCode) {
+
+            $.ajax({
+                type: 'GET',
+                url: '/getClientIp',
+                success: function (clientIp) {
+                    getSpotifyUserInfo(varCode, clientIp);
+                },
+                error: function (xhr, status, error) {
+                    console.log("Return error");
+                    console.log(xhr);
+                    console.log(JSON.parse(xhr.responseText).message);
+                }
+            });
+
+        }
+
+        function getSpotifyUserInfo(varCode, clientIp) {
+
+            $.ajax({
+                type: 'GET',
+                url: '/getSpotifyUserInfo',
+                data: {
+                    code: varCode,
+                    clientIp: clientIp
+                },
+                //timeout: 5000,
+                //retryLimit: 1,
+                success: function (SpotifyUserInfo) {
+                    $('#spFmUserDetailsLoading').hide();
+                    $('#fmUserDetails').show();
+                    document.getElementById("txnName").innerHTML = SpotifyUserInfo.displayName;
+                    document.getElementById("txnLocation").innerHTML = SpotifyUserInfo.location;
+                    document.getElementById("txnWeather").innerHTML = SpotifyUserInfo.weather;
+                    document.getElementById("txnTemp").innerHTML = SpotifyUserInfo.tempMin + " - " + SpotifyUserInfo.tempMax + " &#8451;";
+
+                    var progreeBarPercentage = SpotifyUserInfo.moodLevel;
+                    $("#pbMoodLevel")
+                        .css("width", progreeBarPercentage + "%")
+                        .attr("aria-valuenow", progreeBarPercentage)
+                        .text(progreeBarPercentage + "/100");
+
+                },
+                error: function (xhr, status, error) {
+                    console.log(JSON.parse(xhr.responseText).message);
+                    console.log("retryLimit:" + retryLimit);
+                    retryLimit = retryLimit + 1;
+                    if (retryLimit <= 3) { setTimeout($.ajax(this), 10000) };
+                }
+            });
+        }
+
+        function loginMusicAndMood() {
+
+            //var windowReference = window.open();
+            $.ajax({
+                type: 'GET',
+                url: '/loginMusicAndMood',
+                success: function (MusicAndMoodUrl) {
+                    console.log("Return success loginMusicAndMood");
+                    window.location.replace(MusicAndMoodUrl);
+                    //windowReference.close();
+                },
+                error: function (xhr, status, error) {
+                    console.log("Return error");
+                    console.log(xhr);
+                    console.log(JSON.parse(xhr.responseText).message);
+                }
+            });
+        }
+    </script>
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const varCode = urlParams.get('code');
+
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            if (typeof varAccessToken === 'undefined') {
+                var varAccessToken = "NoUserLogin";
+            }
+            const token = varAccessToken;
+            const player = new Spotify.Player({
+                name: 'Web Playback SDK Quick Start Player',
+                getOAuthToken: cb => {
+                    cb(token);
+                }
+            });
+
+            // Error handling
+            player.addListener('initialization_error', ({
+                message
+            }) => {
+                console.error(message);
+            });
+            player.addListener('authentication_error', ({
+                message
+            }) => {
+                console.error(message);
+            });
+            player.addListener('account_error', ({
+                message
+            }) => {
+                console.error(message);
+            });
+            player.addListener('playback_error', ({
+                message
+            }) => {
+                console.error(message);
+            });
+
+            // Playback status updates
+            player.addListener('player_state_changed', state => {
+                console.log(state);
+            });
+
+            // Ready
+            player.addListener('ready', ({
+                device_id
+            }) => {
+                console.log('Ready with Device ID', device_id);
+            });
+
+            // Not Ready
+            player.addListener('not_ready', ({
+                device_id
+            }) => {
+                console.log('Device ID has gone offline', device_id);
+            });
+
+            // Connect to the player!
+            player.connect();
+        };
+
+    </script>
+
+</body>
+
+</html>

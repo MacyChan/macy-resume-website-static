@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Token Error, retry:</h1>
+<button class="btnRetry">Click me</button>
+
+<h1>Token Error, exit:</h1>
+<button class="btnRetry">Click me</button>
+
+<p id="demo"></p>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script>
+$('.btnRetry').click(function(){
+
+            $.ajax({
+        type:'GET',
+        url:'/loginMusicAndMood',
+        success:function(MusicAndMoodUrl) {
+                        console.log("Return success loginMusicAndMood");
+                        window.location.replace(MusicAndMoodUrl);
+             },
+        error: function(xhr, status, error){
+            console.log("Return error");
+            console.log(xhr);
+            console.log(JSON.parse(xhr.responseText).message);
+             }
+        });
+
+});
+</script>
+
+
+</body>
+</html>
